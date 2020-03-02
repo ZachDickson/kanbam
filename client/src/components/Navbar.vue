@@ -59,4 +59,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+nav {
+  font-family: cursive;
+}
+</style>
