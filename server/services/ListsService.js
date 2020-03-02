@@ -14,6 +14,10 @@ class ListService {
     }
     return data
   }
+  async getListsByBoardId(id) {
+    let data = await dbContext.Lists.find({ _id: id })
+    return data
+  }
 
   async create(rawData) {
     let data = await dbContext.Lists.create(rawData)
@@ -38,4 +42,4 @@ class ListService {
 }
 
 
-export const boardService = new ListService()
+export const listsService = new ListService()
