@@ -5,7 +5,8 @@ import BoardSchema from '../models/Board'
 class DbContext {
   Values = mongoose.model("Value", ValueSchema);
   Profile = mongoose.model("Profile", ProfileSchema);
-  Boards = mongoose.model("Board", BoardSchema)
+  Boards = mongoose.model("Board", BoardSchema);
+  Lists = mongoose.model("List", ListSchema);
 }
 
 export const dbContext = new DbContext();
