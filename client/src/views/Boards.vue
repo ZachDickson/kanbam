@@ -23,6 +23,7 @@
             <button class="btn btn-warning" @click="create=!create">Cancel</button>
           </form>
           <div v-for="board in boards" :key="board._id">
+            <!--<board :boardData="board" :boardId="board.id" /> -->
             <router-link :to="{name: 'board', params: {boardId: board._id}}">>{{board.title}}</router-link>
           </div>
         </div>
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import Board from "../components/Board";
 export default {
   name: "boards",
   mounted() {
