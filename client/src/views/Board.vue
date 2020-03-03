@@ -1,5 +1,5 @@
 <template>
-  <div class="board">
+  <div class="board bg-dark text-secondary">
     <h1 v-if="board.title">{{board.title}}</h1>
     <h1 v-else>Loading...</h1>
   </div>
