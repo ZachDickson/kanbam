@@ -13,21 +13,13 @@
 export default {
   name: "board",
   props: ["BoardData", "BoardId"],
-  mounted() {
-    this.$store.dispatch("getBoards");
-  },
+  mounted() {},
   data() {
     return {
-      newBoard: {
-        title: "",
-        description: ""
-      },
-      create: false
+      newBoard: {}
     };
   },
-  computed: {
-    boards() {}
-  },
+  computed: {},
   methods: {}
 };
 </script>

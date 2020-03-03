@@ -9,7 +9,7 @@ Vue.use(Vuex)
 let base = window.location.host.includes('localhost:8080') ? '//localhost:3000/' : '/'
 
 let api = Axios.create({
-  baseURL: base + "api/",
+  baseURL: base + "api",
   timeout: 3000,
   withCredentials: true
 })
@@ -26,6 +26,9 @@ export default new Vuex.Store({
     },
     setBoards(state, boards) {
       state.boards = boards
+    },
+    setActiveBoard(state, board) {
+      state.activeBoard = board
     }
   },
   actions: {
@@ -53,6 +56,10 @@ export default new Vuex.Store({
         .then(res => {
           commit('setBoards', res.data)
         })
+    },
+    async setActiveBoard({ commit }, boardId) {
+      let board = await api.get(`boards/${boardId}`);
+      commit("setActiveBoard", board.data);
     },
     addBoard({ commit, dispatch }, boardData) {
       api.post('boards', boardData)
