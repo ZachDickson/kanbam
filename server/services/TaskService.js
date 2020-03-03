@@ -5,7 +5,7 @@ import { BadRequest } from "../utils/Errors"
 class TaskService {
 
   async getTasksByListId(id, userEmail) {
-    let data = await dbContext.Tasks.find({ _id: id, creatorEmail: userEmail })
+    let data = await dbContext.Tasks.find({ listId: id, creatorEmail: userEmail })
     if (!data) {
       throw new BadRequest("This is not your list!")
     }

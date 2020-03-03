@@ -7,7 +7,7 @@ import { taskService } from "../services/TaskService";
 export class TaskController extends BaseController {
 
   constructor() {
-    super("api/task")
+    super("api/tasks")
     this.router = express.Router()
       .use(auth0provider.getAuthorizedUserInfo)
       .get('/:id', this.getById)
