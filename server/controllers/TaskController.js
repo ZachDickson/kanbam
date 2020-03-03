@@ -2,18 +2,20 @@ import express from 'express'
 import BaseController from "../utils/BaseController";
 import auth0provider from "@bcwdev/auth0provider";
 import { taskService } from "../services/TaskService";
-import { commentService } from "../services/CommentService"
 
 //PUBLIC
 export class TaskController extends BaseController {
+
   constructor() {
     super("api/task")
     this.router = express.Router()
       .use(auth0provider.getAuthorizedUserInfo)
       .get('/:id', this.getById)
       .post('', this.create)
+      .post("/:id/comments", this.createComment)
       .put('/:id', this.edit)
       .delete('/:id', this.delete)
+      .delete("/:id/comments/:commentId", this.deleteComment)
   }
 
 
@@ -32,14 +34,6 @@ export class TaskController extends BaseController {
     } catch (error) { next(error) }
   }
 
-  async createComment(req, res, next) {
-    try {
-      let data = await commentService.createComment(req.body)
-      return res.status(201).send(data)
-    } catch (error) {
-      next(error)
-    }
-  }
 
   async edit(req, res, next) {
     try {
@@ -53,6 +47,25 @@ export class TaskController extends BaseController {
       await taskService.delete(req.params.id, req.userInfo.email)
       return res.send("Successfully deleted")
     } catch (error) { next(error) }
+  }
+  async createComment(req, res, next) {
+    try {
+      let commentFound = await taskService.addComment(req.params.id, req.body)
+      return res.send(commentFound)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async deleteComment(req, res, next) {
+    try {
+      let data = await taskService.deleteComment(req.params.id, req.params.commentId)
+      {
+        res.send("comment deleted!")
+      }
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
