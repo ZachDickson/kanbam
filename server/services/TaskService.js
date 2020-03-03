@@ -3,6 +3,7 @@ import { BadRequest } from "../utils/Errors"
 
 
 class TaskService {
+
   async getTasksByListId(id, userEmail) {
     let data = await dbContext.Tasks.find({ _id: id, creatorEmail: userEmail })
     if (!data) {
@@ -37,6 +38,13 @@ class TaskService {
     if (!data) {
       throw new BadRequest("Invalid ID or you do not own this board");
     }
+  }
+
+  async addComment(id, body) {
+    return await dbContext.Tasks.findOneAndUpdate({ _id: id }, { $addToSet: { comments: body } }, { new: true })
+  }
+  async deleteComment(id, commentId) {
+    return await dbContext.Tasks.findOneAndUpdate({ _id: id }, { $pull: { comments: { _id: commentId } } }, { new: true })
   }
 
 }
