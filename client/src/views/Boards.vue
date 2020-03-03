@@ -34,6 +34,7 @@
 
 <script>
 import Board from "../components/Board";
+
 export default {
   name: "boards",
   mounted() {
@@ -46,6 +47,7 @@ export default {
         description: ""
       },
       create: false
+      }
     };
   },
   computed: {
@@ -77,3 +79,14 @@ div.boards {
   border-top: 2rem solid #4f48db;
 }
 </style>
+    }
+  },
+  methods: {
+    addBoard() {
+      this.$store.dispatch("addBoard", this.newBoard);
+      this.newBoard = { title: "", description: "" };
+    }
+  }
+};
+</script>
+
