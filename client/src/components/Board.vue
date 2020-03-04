@@ -6,6 +6,7 @@
       <router-link :to="{name: 'board', params: {boardId: boardId}}">
         <button class="btn btn-primary">View Board</button>
       </router-link>
+      <button @click="deleteBoard" class="btn btn-warning">Delete</button>
     </div>
   </div>
 </template>
@@ -21,7 +22,11 @@ export default {
     };
   },
   computed: {},
-  methods: {}
+  methods: {
+    deleteBoard() {
+      this.$store.dispatch("deleteBoardById", this.boardId);
+    }
+  }
 };
 </script>
 

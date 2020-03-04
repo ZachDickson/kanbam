@@ -2,10 +2,11 @@
   <div class="list bg-primary rounded mt-5 text-warning">
     <h1>{{listData.title}}</h1>
 
-    <create-task :listId="listData.id" />
-    <div v-for="(task) in list.tasks" :key="task.id">
+    <create-task :listId="listData.id" :boardId="listData.boardId" />
+    <div v-for="(task) in tasks" :key="task.id">
       <task :taskData="task" />
     </div>
+    <button @click="deleteList" class="btn btn-warning">Delete List</button>
   </div>
 </template>
 
@@ -16,24 +17,21 @@ export default {
   name: "list",
   props: ["listData"],
   computed: {
-    list() {
-      tasks: [];
+    tasks() {
+      return this.$store.state.tasks[this.listData._id];
     }
   },
   mounted() {
-    this.list.tasks = this.$store.dispatch(
-      "getTasksByListId",
-      this.listData._id
-    );
+    this.$store.dispatch("getTasksByListId", this.listData._id);
   },
   data() {
-    return {
-      list: {
-        tasks: []
-      }
-    };
+    return {};
   },
-  methods: {},
+  methods: {
+    deleteList() {
+      this.$store.dispatch("deleteList", this.listData);
+    }
+  },
   components: {
     Task,
     CreateTask

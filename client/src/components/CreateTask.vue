@@ -11,6 +11,7 @@ export default {
     return {
       newTask: {
         listId: this.listId,
+        boardId: this.boardId,
         authorId: this.$auth.userInfo.email
       }
     };
@@ -22,7 +23,7 @@ export default {
       this.newTask.title = "";
     }
   },
-  props: ["listId"]
+  props: ["listId", "boardId"]
 };
 </script>
 

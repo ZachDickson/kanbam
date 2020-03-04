@@ -13,7 +13,8 @@ const Task = new Schema(
     creatorEmail: { type: String, lowercase: true },
     title: { type: String, required: true },
     comments: [Comment],
-    listId: { type: ObjectId, ref: 'List', required: true }
+    listId: { type: ObjectId, ref: 'List', required: true },
+    boardId: { type: ObjectId, ref: 'Board', required: true }
 
     // NOTE If you wish to add additional public properties for profiles do so here
   },
