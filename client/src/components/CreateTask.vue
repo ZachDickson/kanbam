@@ -17,8 +17,8 @@ export default {
   },
   methods: {
     async CreateTask() {
-      await this.$store.dispatch("createTask", this.newTask);
       console.log(this.newTask);
+      await this.$store.dispatch("createTask", this.newTask);
       this.newTask.title = "";
     }
   },

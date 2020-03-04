@@ -1,5 +1,6 @@
 <template>
   <div class="task bg-light rounded mt-5">
+    <h2>This is a task</h2>
     <h1>{{taskData.title}}</h1>
   </div>
 </template>
@@ -8,7 +9,9 @@
 export default {
   name: "task",
   props: ["taskData"],
-  mounted() {},
+  mounted() {
+    console.log(this.taskData);
+  },
   data() {
     return {
       newBoard: {}

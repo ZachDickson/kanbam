@@ -109,7 +109,8 @@ export default new Vuex.Store({
     },
     async getTasksByListId({ commit }, id) {
       let tasks = await api.get(`lists/${id}/tasks`);
-      commit("setTasks", tasks);
+      commit("setTasks", tasks.data);
+      return tasks.data
     }
 
     //#endregion

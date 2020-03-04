@@ -3,8 +3,9 @@
     <h1>{{listData.title}}</h1>
 
     <create-task :listId="listData.id" />
-    <div v-for="(taskData) in tasks" :key="taskData.id" :task="taskData"></div>
-    <task />
+    <div v-for="(task) in list.tasks" :key="task.id">
+      <task :taskData="task" />
+    </div>
   </div>
 </template>
 
@@ -14,18 +15,23 @@ import Task from "../components/Task";
 export default {
   name: "list",
   props: ["listData"],
+  computed: {
+    list() {
+      tasks: [];
+    }
+  },
   mounted() {
-    this.$store.dispatch("getTasksByListId", this.listData.id);
+    this.list.tasks = this.$store.dispatch(
+      "getTasksByListId",
+      this.listData._id
+    );
   },
   data() {
     return {
-      newTask: {}
+      list: {
+        tasks: []
+      }
     };
-  },
-  computed: {
-    tasks() {
-      return this.$store.state.tasks;
-    }
   },
   methods: {},
   components: {
