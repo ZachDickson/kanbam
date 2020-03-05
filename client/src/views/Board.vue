@@ -5,7 +5,7 @@
     <create-list />
     <div class="container">
       <div class="row">
-        <div class="col-6 col-md-3" v-for="(list) in lists" :key="list.id">
+        <div class="col-6 col-md-4" v-for="(list) in lists" :key="list.id">
           <list :listData="list" />
         </div>
       </div>

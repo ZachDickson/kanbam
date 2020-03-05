@@ -1,8 +1,13 @@
 <template>
-  <div class="col-md-4 offset-md-4 col-12">
+  <div class="col-md-6 offset-md-3 col-12 d-flex flex-column align-items-center">
     <form @submit.prevent>
-      <input v-model="newList.title" type="text" />
-      <button @click="CreateList">create list</button>
+      <input
+        v-model="newList.title"
+        class="rounded-pill pl-1 border-0 form-control-sm create-list"
+        placeholder="List Title"
+        type="text"
+      />
+      <h3 class="create" @click="CreateList">Create List</h3>
     </form>
   </div>
 </template>
@@ -28,4 +33,10 @@ export default {
 </script>
 
 <style>
+input.create-list {
+  min-width: 30vw;
+}
+h3.create {
+  cursor: pointer;
+}
 </style>

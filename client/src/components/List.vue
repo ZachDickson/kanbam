@@ -1,12 +1,16 @@
 <template>
-  <div class="list bg-primary rounded mt-5 text-warning">
-    <h1>{{listData.title}}</h1>
-
-    <create-task :listId="listData.id" :boardId="listData.boardId" />
-    <div v-for="(task) in tasks" :key="task.id">
-      <task :taskData="task" />
+  <div class="list bg-primary rounded mt-5 text-warning p-2">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>{{listData.title}}</h1>
+      <span class="d-flex align-items-center">
+        <create-task :listId="listData.id" :boardId="listData.boardId" />
+        <img src="../assets/images/delete.png" @click="deleteList" alt="delete" />
+      </span>
     </div>
-    <button @click="deleteList" class="btn btn-warning">Delete List</button>
+
+    <div v-for="(task) in tasks" :key="task.id">
+      <task :taskData="task" :listTitle="listData.title" />
+    </div>
   </div>
 </template>
 
@@ -43,5 +47,9 @@ export default {
 div.list {
   padding-bottom: 2rem;
   padding-top: 2rem;
+}
+img {
+  max-height: 2rem;
+  cursor: pointer;
 }
 </style>
