@@ -1,6 +1,6 @@
 <template>
   <div class="bg-dark text-success">
-    <button class="btn btn-success" v-show="!create" @click="create = !create">Create Board</button>
+    <button class="btn btn-success mt-5" v-show="!create" @click="create = !create">Create Board</button>
     <div class="container">
       <div v-show="create" class="row">
         <div class="boards col-12 col-md-6 offset-md-3 pb-2">
@@ -22,10 +22,11 @@
             <button class="btn btn-light" type="submit">Create Board</button>
             <button class="btn btn-warning" @click="create=!create">Cancel</button>
           </form>
-          <div v-for="board in boards" :key="board._id">
-            <!--<board :boardData="board" :boardId="board.id" /> -->
-            <router-link :to="{name: 'board', params: {boardId: board._id}}">>{{board.title}}</router-link>
-          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3" v-for="board in boards" :key="board._id">
+          <board :boardData="board" :boardId="board.id" />
         </div>
       </div>
     </div>
@@ -47,7 +48,6 @@ export default {
         description: ""
       },
       create: false
-      }
     };
   },
   computed: {
@@ -60,7 +60,6 @@ export default {
       await this.$store.dispatch("addBoard", this.newBoard);
       this.newBoard = { title: "", description: "" };
       this.create = false;
-      console.log("FALSE");
     }
   },
   components: {
@@ -79,17 +78,3 @@ div.boards {
   border-top: 2rem solid #4f48db;
 }
 </style>
-    }
-  },
-  methods: {
-    addBoard() {
-      this.$store.dispatch("addBoard", this.newBoard);
-      this.newBoard = { title: "", description: "" };
-    },
-    setActiveBoard(id) {
-      this.$store.dispatch("setActiveBoard", id);
-    }
-  }
-};
-</script>
-

@@ -15,7 +15,7 @@ class ListService {
     return data
   }
   async getListsByBoardId(id) {
-    let data = await dbContext.Lists.find({ _id: id })
+    let data = await dbContext.Lists.find({ boardId: id })
     return data
   }
 

@@ -18,7 +18,9 @@ export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
-    activeBoard: {}
+    activeBoard: {},
+    lists: [],
+    tasks: {}
   },
   mutations: {
     setUser(state, user) {
@@ -29,6 +31,20 @@ export default new Vuex.Store({
     },
     setActiveBoard(state, board) {
       state.activeBoard = board
+    },
+
+    setList(state, list) {
+      state.lists = list
+    },
+
+    addList(state, list) {
+      state.lists.push(list)
+    },
+    addTask(state, task) {
+      state.tasks[task.listId].push(task)
+    },
+    setTasks(state, tasks) {
+      Vue.set(state.tasks, tasks.listId, tasks.tasks)
     }
   },
   actions: {
@@ -66,14 +82,65 @@ export default new Vuex.Store({
         .then(serverBoard => {
           dispatch('getBoards')
         })
-    }
+    },
+    async deleteBoardById({ commit, dispatch }, boardId) {
+      await api.delete(`boards/${boardId}`)
+      dispatch("getBoards")
+    },
     //#endregion
 
 
     //#region -- LISTS --
 
+    getList({ commit }, boardId) {
+      api.get(`boards/${boardId}/lists`)
+        .then(res => {
+          commit('setList', res.data)
+        })
+    },
+
+    createList({ commit }, list) {
+      api.post('lists', list)
+        .then(res => {
+          console.log(res)
+          commit("addList", res.data)
+        })
+    },
+    async deleteList({ commit, dispatch }, list) {
+      await api.delete(`lists/${list.id}`)
+      dispatch("getList", list.boardId)
+    },
+    async createTask({ commit }, task) {
+      let tasks = await api.post('tasks', task)
+      commit("addTask", tasks.data)
+    },
+    async getTasksByListId({ commit }, id) {
+      let tasks = await api.get(`lists/${id}/tasks`);
+      commit("setTasks", { tasks: tasks.data, listId: id });
+      console.log(tasks.data)
+    },
+    async deleteTaskById({ commit, dispatch }, task) {
+      await api.delete(`tasks/${task.id}`);
+      dispatch("getTasksByListId", task.listId)
+    },
+    async createComment({ commit, dispatch }, comment) {
+      await api.post(`tasks/${comment.taskId}/comments`, comment)
+      dispatch("getTasksByListId", comment.listId)
+    },
+    async deleteComment({ dispatch }, commentDict) {
+      await api.delete(`tasks/${commentDict.taskId}/comments/${commentDict.commentId}`)
+      console.log(commentDict)
+      dispatch("getTasksByListId", commentDict.listId)
+    },
+
+    async changeList({ dispatch }, bananaId) {
+      await api.put(`tasks/${bananaId.taskId}`, { listId: bananaId.listId })
+      dispatch("getTasksByListId", bananaId.listId)
+      dispatch("getTasksByListId", bananaId.priorList)
+    }
 
 
     //#endregion
+
   }
 })

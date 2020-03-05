@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+let ObjectId = Schema.Types.ObjectId
 
 const Comment = new Schema({
   creator: { type: String, required: true },
@@ -9,10 +10,11 @@ const Comment = new Schema({
 )
 const Task = new Schema(
   {
-    subs: [{ type: String, unique: true }],
-    email: { type: String, lowercase: true, unique: true },
+    creatorEmail: { type: String, lowercase: true },
     title: { type: String, required: true },
-    comments: [Comment]
+    comments: [Comment],
+    listId: { type: ObjectId, ref: 'List', required: true },
+    boardId: { type: ObjectId, ref: 'Board', required: true }
 
     // NOTE If you wish to add additional public properties for profiles do so here
   },
