@@ -1,34 +1,57 @@
 <template>
-  <div class="task bg-light rounded mt-5">
-    <div class="dropdown">
-      <button
-        class="btn btn-secondary dropdown-toggle"
-        type="button"
-        id="dropdownMenuButton"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >{{listTitle}}</button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a
-          v-show="list.id != taskData.listId"
-          @click="changeList(list.id)"
-          v-for="list in lists"
-          :key="list.id"
-          class="dropdown-item"
-        >{{list.title}}</a>
+  <div class="task bg-light rounded mt-5 p-2">
+    <div class="d-flex justify-content-between">
+      <h3>{{taskData.title}}</h3>
+      <div class="dropdown">
+        <button
+          class="btn btn-light dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        ></button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a
+            v-show="list.id != taskData.listId"
+            @click="changeList(list.id)"
+            v-for="list in lists"
+            :key="list.id"
+            class="dropdown-item"
+          >Move to {{list.title}}</a>
+        </div>
+        <img
+          class="delete-task"
+          @click="destroy(taskData)"
+          src="../assets/images/deleteTask.png"
+          alt="delete"
+        />
       </div>
     </div>
-    <h1>{{taskData.title}}</h1>
-    <button @click="destroy(taskData)" class="btn btn-warning">Delete</button>
-    <input type="text" v-model="newComment.comment" placeholder="You're a noob" />
-    <button @click="comment()" class="btn btn-success">Create Comment</button>
-    <div v-for="commentData in taskData.comments" :key="commentData.id">
+    <div class="d-flex justify-content-between">
+      <button v-if="!form" @click="form=!form" class="btn btn-light add-button">+</button>
+      <input
+        v-else
+        type="text"
+        class="rounded-pill border-0 pl-1"
+        v-model="newComment.comment"
+        placeholder="Create Comment"
+      />
+      <img v-if="form" class="form" @click="comment()" src="../assets/images/check.png" alt />
+      <img v-if="form" class="form" @click="form = !form" src="../assets/images/x.png" alt />
+    </div>
+    <div
+      v-for="commentData in taskData.comments"
+      :key="commentData.id"
+      class="d-flex justify-content-between bg-primary text-light rounded mb-1 comment"
+    >
       {{commentData.comment}}
-      <button
+      <img
+        class="form"
         @click="deleteComment(commentData)"
-        class="btn btn-danger"
-      >Delete Comment</button>
+        src="../assets/images/x.png"
+        alt
+      />
     </div>
   </div>
 </template>
@@ -47,7 +70,8 @@ export default {
         taskId: this.taskData.id,
         listId: this.taskData.listId,
         comment: ""
-      }
+      },
+      form: false
     };
   },
   computed: {
@@ -61,9 +85,15 @@ export default {
     },
     async comment() {
       await this.$store.dispatch("createComment", this.newComment);
+      (this.newComment.comment = ""), (this.form = false);
     },
     deleteComment(commentData) {
-      this.$store.dispatch("deleteComment", update);
+      let banana = {
+        commentId: commentData.id,
+        listId: this.taskData.listId,
+        taskId: this.taskData.id
+      };
+      this.$store.dispatch("deleteComment", banana);
     },
     changeList(listId) {
       if (this.taskData.listId == listId) {
@@ -86,5 +116,14 @@ export default {
 div.task {
   padding-bottom: 2rem;
   padding-top: 2rem;
+}
+img.delete-task {
+  height: 1.5rem;
+}
+img.form {
+  height: 1.5rem;
+}
+div.comment {
+  opacity: 90%;
 }
 </style>
