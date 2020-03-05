@@ -5,7 +5,10 @@ import { BadRequest } from "../utils/Errors"
 class TaskService {
 
   async getTasksByListId(id, userEmail) {
-    let data = await dbContext.Tasks.find({ listId: id, creatorEmail: userEmail })
+    let data = await dbContext.Tasks.find({ listId: id })
+    if (data.length) {
+      let board = await dbContext.Boards.findOne({ id: data.boardId, collabEmail: userEmail })
+    }
     if (!data) {
       throw new BadRequest("This is not your list!")
     }
@@ -13,7 +16,7 @@ class TaskService {
   }
 
   async getById(id, userEmail) {
-    let data = await dbContext.Tasks.findOne({ _id: id, creatorEmail: userEmail })
+    let data = await dbContext.Tasks.findOne({ _id: id, collabEmail: userEmail })
     if (!data) {
       throw new BadRequest("Invalid ID or you do not own this board")
     }

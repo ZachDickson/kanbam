@@ -32,7 +32,7 @@ export class BoardsController extends BaseController {
 
   async getListsByBoardId(req, res, next) {
     try {
-      let data = await listsService.getListsByBoardId(req.params.id)
+      let data = await listsService.getListsByBoardId(req.params.id, req.userInfo.email)
       return res.send(data)
     } catch (error) {
       next(error)
@@ -49,6 +49,7 @@ export class BoardsController extends BaseController {
   async create(req, res, next) {
     try {
       req.body.creatorEmail = req.userInfo.email
+      req.body.collabEmail.push(req.userInfo.email)
       let data = await boardService.create(req.body)
       return res.status(201).send(data)
     } catch (error) { next(error) }

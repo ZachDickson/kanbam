@@ -45,7 +45,8 @@ export default {
     return {
       newBoard: {
         title: "",
-        description: ""
+        description: "",
+        collabEmail: []
       },
       create: false
     };

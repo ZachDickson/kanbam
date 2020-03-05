@@ -14,8 +14,12 @@ class ListService {
     }
     return data
   }
-  async getListsByBoardId(id) {
+  async getListsByBoardId(id, userEmail) {
     let data = await dbContext.Lists.find({ boardId: id })
+    let board = await dbContext.Boards.find({ id: id, collabEmail: userEmail })
+    if (!board) {
+      throw new BadRequest("You're not authorized! Or you have a bad ID. Or something else, I can't see the future.")
+    }
     return data
   }
 

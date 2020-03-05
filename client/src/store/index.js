@@ -83,6 +83,10 @@ export default new Vuex.Store({
           dispatch('getBoards')
         })
     },
+    async editBoard({ dispatch }, update) {
+      await api.put(`boards/${update.id}`, update)
+      dispatch("getBoards")
+    },
     async deleteBoardById({ commit, dispatch }, boardId) {
       await api.delete(`boards/${boardId}`)
       dispatch("getBoards")
