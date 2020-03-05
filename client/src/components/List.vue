@@ -3,8 +3,8 @@
     <div class="d-flex justify-content-between align-items-center">
       <h1>{{listData.title}}</h1>
       <span class="d-flex align-items-center">
-        <create-task :listId="listData.id" :boardId="listData.boardId" />
         <img src="../assets/images/delete.png" @click="deleteList" alt="delete" />
+        <create-task :listId="listData.id" :boardId="listData.boardId" />
       </span>
     </div>
 
