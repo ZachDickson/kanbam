@@ -1,8 +1,11 @@
 <template>
-  <form @submit.prevent>
-    <input v-model="newTask.title" type="text" />
-    <button @click="CreateTask">create task</button>
-  </form>
+  <div class="d-flex flex-column align-items-end">
+    <form v-if="form" @submit.prevent>
+      <input v-model="newTask.title" type="text" />
+      <button class="btn btn-secondary" @click="CreateTask">create task</button>
+    </form>
+    <button @click="form = !form" class="btn btn-secondary">+</button>
+  </div>
 </template>
 
 <script>
@@ -13,7 +16,8 @@ export default {
         listId: this.listId,
         boardId: this.boardId,
         authorId: this.$auth.userInfo.email
-      }
+      },
+      form: false
     };
   },
   methods: {
