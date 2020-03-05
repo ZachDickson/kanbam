@@ -7,7 +7,7 @@
         placeholder="List Title"
         type="text"
       />
-      <h3 @click="CreateList">Create List</h3>
+      <h3 class="create" @click="CreateList">Create List</h3>
     </form>
   </div>
 </template>
@@ -35,5 +35,8 @@ export default {
 <style>
 input.create-list {
   min-width: 30vw;
+}
+h3.create {
+  cursor: pointer;
 }
 </style>
