@@ -1,5 +1,5 @@
 <template>
-  <div class="task bg-light rounded mt-5 p-2">
+  <div class="task bg-light rounded mt-2 p-2">
     <div class="d-flex justify-content-between">
       <h3>{{taskData.title}}</h3>
       <div class="dropdown">
@@ -43,7 +43,7 @@
     <div
       v-for="commentData in taskData.comments"
       :key="commentData.id"
-      class="d-flex justify-content-between bg-primary text-light rounded mb-1 comment"
+      class="d-flex justify-content-between bg-primary text-light rounded mb-1 comment pl-1"
     >
       {{commentData.comment}}
       <img
