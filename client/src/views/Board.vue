@@ -1,5 +1,5 @@
 <template>
-  <div class="board bg-dark text-secondary">
+  <div id="bg" class="board bg-dark text-secondary">
     <h1 v-if="board.title">{{board.title}}</h1>
     <h1 v-else>Loading...</h1>
     <create-list />
@@ -42,3 +42,10 @@ export default {
   props: ["boardId"]
 };
 </script>
+
+<style>
+#bg {
+  background-image: url(https://www.lionfront.com/wp-content/uploads/2018/03/coffee-smartphone-desk-pen-1.jpg);
+  background-size: cover;
+}
+</style>
