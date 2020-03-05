@@ -1,12 +1,11 @@
 <template>
   <div class="list bg-primary rounded mt-5 text-warning">
     <h1>{{listData.title}}</h1>
-
     <create-task :listId="listData.id" :boardId="listData.boardId" />
-    <div v-for="(task) in tasks" :key="task.id">
-      <task :taskData="task" />
-    </div>
     <button @click="deleteList" class="btn btn-warning">Delete List</button>
+    <div v-for="(task) in tasks" :key="task.id">
+      <task :taskData="task" :listTitle="listData.title" />
+    </div>
   </div>
 </template>
 

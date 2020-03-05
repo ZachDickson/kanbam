@@ -8,9 +8,10 @@
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
-      >Move Task?</button>
+      >{{listTitle}}</button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a
+          v-show="list.id != taskData.listId"
           @click="changeList(list.id)"
           v-for="list in lists"
           :key="list.id"
@@ -35,7 +36,7 @@
 <script>
 export default {
   name: "task",
-  props: ["taskData"],
+  props: ["taskData", "listTitle"],
   mounted() {
     console.log(this.taskData);
   },
