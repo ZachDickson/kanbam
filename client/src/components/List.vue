@@ -27,6 +27,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getTasksByListId", this.listData._id);
+    this.$store.dispatch("joinRoom", "tasks");
+  },
+  beforeDestroy() {
+    this.$store.dispatch("leaveRoom", "tasks");
   },
   data() {
     return {};

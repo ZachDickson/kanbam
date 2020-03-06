@@ -16,7 +16,7 @@ class TaskService {
   }
 
   async getById(id, userEmail) {
-    let data = await dbContext.Tasks.findOne({ _id: id, collabEmail: userEmail })
+    let data = await dbContext.Tasks.findOne({ _id: id })
     if (!data) {
       throw new BadRequest("Invalid ID or you do not own this board")
     }

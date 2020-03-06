@@ -58,6 +58,7 @@ class SocketService {
   }
 
   messageRoom(room, eventName, payload) {
+
     this.io.to(room).emit(eventName, payload);
   }
 

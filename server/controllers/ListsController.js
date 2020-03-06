@@ -3,6 +3,7 @@ import BaseController from "../utils/BaseController";
 import auth0provider from "@bcwdev/auth0provider";
 import { listsService } from "../services/ListsService";
 import { taskService } from "../services/TaskService";
+import socketService from "../services/SocketService"
 
 //PUBLIC
 export class ListsController extends BaseController {
@@ -48,6 +49,7 @@ export class ListsController extends BaseController {
     try {
       req.body.creatorEmail = req.userInfo.email
       let data = await listsService.create(req.body)
+      socketService.messageRoom('lists', 'createList', data)
       return res.status(201).send(data)
     } catch (error) { next(error) }
   }
@@ -62,6 +64,7 @@ export class ListsController extends BaseController {
   async delete(req, res, next) {
     try {
       await listsService.delete(req.params.id, req.userInfo.email)
+      socketService.messageRoom('lists', 'deleteList', req.params.id)
       return res.send("Successfully deleted")
     } catch (error) { next(error) }
   }

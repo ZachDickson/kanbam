@@ -31,9 +31,14 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch("joinRoom", "lists");
     this.$store.dispatch("setActiveBoard", this.$route.params.boardId);
     this.$store.dispatch("getList", this.$route.params.boardId);
   },
+  beforeDestroy() {
+    this.$store.dispatch("leaveRoom", "lists");
+  },
+
   components: {
     List,
     CreateList,

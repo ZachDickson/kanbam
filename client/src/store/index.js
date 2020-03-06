@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 import router from '../router/index'
+import { socketStore } from "./socketStore"
 
 Vue.use(Vuex)
 
@@ -36,12 +37,24 @@ export default new Vuex.Store({
     setList(state, list) {
       state.lists = list
     },
-
+    deleteList(state, id) {
+      state.lists = state.lists.filter(c => c._id != id)
+    },
     addList(state, list) {
       state.lists.push(list)
     },
     addTask(state, task) {
       state.tasks[task.listId].push(task)
+    },
+    editTask(state, task) {
+      debugger;
+      let task1 = state.tasks.find(c => c.id == task.id)
+      task1 = task;
+    },
+    deleteTask(state, task) {
+      debugger
+      state.tasks[task.listId] = state.tasks[task.listId].filter(c => c.id != task.id)
+      console.log(state.tasks[task.listId].filter(c => c.id != task.id))
     },
     setTasks(state, tasks) {
       Vue.set(state.tasks, tasks.listId, tasks.tasks)
@@ -105,27 +118,19 @@ export default new Vuex.Store({
 
     createList({ commit }, list) {
       api.post('lists', list)
-        .then(res => {
-          console.log(res)
-          commit("addList", res.data)
-        })
     },
     async deleteList({ commit, dispatch }, list) {
       await api.delete(`lists/${list.id}`)
-      dispatch("getList", list.boardId)
     },
     async createTask({ commit }, task) {
       let tasks = await api.post('tasks', task)
-      commit("addTask", tasks.data)
     },
     async getTasksByListId({ commit }, id) {
       let tasks = await api.get(`lists/${id}/tasks`);
       commit("setTasks", { tasks: tasks.data, listId: id });
-      console.log(tasks.data)
     },
     async deleteTaskById({ commit, dispatch }, task) {
       await api.delete(`tasks/${task.id}`);
-      dispatch("getTasksByListId", task.listId)
     },
     async createComment({ commit, dispatch }, comment) {
       await api.post(`tasks/${comment.taskId}/comments`, comment)
@@ -133,18 +138,18 @@ export default new Vuex.Store({
     },
     async deleteComment({ dispatch }, commentDict) {
       await api.delete(`tasks/${commentDict.taskId}/comments/${commentDict.commentId}`)
-      console.log(commentDict)
       dispatch("getTasksByListId", commentDict.listId)
     },
 
     async changeList({ dispatch }, bananaId) {
       await api.put(`tasks/${bananaId.taskId}`, { listId: bananaId.listId })
-      dispatch("getTasksByListId", bananaId.listId)
-      dispatch("getTasksByListId", bananaId.priorList)
     }
 
 
     //#endregion
 
+  },
+  modules: {
+    socketStore
   }
 })
