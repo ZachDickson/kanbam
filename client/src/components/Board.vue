@@ -1,8 +1,8 @@
 <template>
-  <div id="card-bg" class="card text-dark mt-5" style>
-    <div id="real-bg">
+  <div class="card shadow p-3 mb-5 rounded mx-1 my-1">
+    <div class="card-body">
       <h5 class="card-title">{{boardData.title}}</h5>
-      <h6 class="card-text">{{boardData.description}}</h6>
+      <p class="card-text">{{boardData.description}}</p>
       <router-link :to="{name: 'board', params: {boardId: boardId}}">
         <button class="btn btn-primary">View Board</button>
       </router-link>
@@ -31,10 +31,6 @@ export default {
 </script>
 
 <style>
-#real-bg {
-  background-image: url(https://store.schoolspecialty.com/OA_HTML/xxssi_ibeGetWCCImage.jsp?docName=F1620581&Rendition=Large);
-  background-size: cover;
-}
 h5 {
   text-shadow: white 0px 0px 10px;
 }

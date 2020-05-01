@@ -7,7 +7,7 @@
         placeholder="List Title"
         type="text"
       />
-      <h3 class="create" @click="CreateList">Create List</h3>
+      <h2 class="btn" @click="CreateList">Create</h2>
     </form>
   </div>
 </template>

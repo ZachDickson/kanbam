@@ -35,7 +35,6 @@ export const socketStore = {
       });
 
       socket.on("changeTask", data => {
-        debugger;
         commit("editTask", data);
       });
     },
