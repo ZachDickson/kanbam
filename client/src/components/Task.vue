@@ -2,24 +2,7 @@
   <div class="task bg-light rounded mt-2 p-2">
     <div class="d-flex justify-content-between">
       <h3>{{taskData.title}}</h3>
-      <div class="dropdown">
-        <button
-          class="btn btn-light dropdown-toggle"
-          type="button"
-          id="dropdownMenuButton"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        ></button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a
-            v-show="list.id != taskData.listId"
-            @click="changeList(list.id)"
-            v-for="list in lists"
-            :key="list.id"
-            class="dropdown-item"
-          >Move to {{list.title}}</a>
-        </div>
+      <div>
         <img
           class="delete-task"
           @click="destroy(taskData)"
@@ -27,18 +10,6 @@
           alt="delete"
         />
       </div>
-    </div>
-    <div class="d-flex justify-content-between">
-      <button v-if="!form" @click="form=!form" class="btn btn-light add-button">+</button>
-      <input
-        v-else
-        type="text"
-        class="rounded-pill border-0 pl-1"
-        v-model="newComment.comment"
-        placeholder="Create Comment"
-      />
-      <img v-if="form" class="form" @click="comment()" src="../assets/images/check.png" alt />
-      <img v-if="form" class="form" @click="form = !form" src="../assets/images/x.png" alt />
     </div>
     <div
       v-for="commentData in taskData.comments"
@@ -53,6 +24,15 @@
         alt
       />
     </div>
+    <div class="d-flex justify-content-between">
+      <input
+        type="text"
+        class="rounded-pill border-0 pl-1"
+        v-model="newComment.comment"
+        placeholder="Create Comment"
+      />
+      <img class="form" @click="comment()" src="../assets/images/check.png" alt />
+    </div>
   </div>
 </template>
 
@@ -60,9 +40,7 @@
 export default {
   name: "task",
   props: ["taskData", "listTitle"],
-  mounted() {
-    console.log(this.taskData);
-  },
+  mounted() {},
   data() {
     return {
       newComment: {
@@ -99,14 +77,15 @@ export default {
       if (this.taskData.listId == listId) {
         return "youre already here!";
       }
-      let banana = {
+      let data = {
         taskId: this.taskData.id,
         listId: listId,
         boardId: this.taskData.boardId,
-        priorList: this.taskData.listId
+        priorList: this.taskData.listId,
+        task: this.taskData
       };
 
-      this.$store.dispatch("changeList", banana);
+      this.$store.dispatch("changeList", data);
     }
   }
 };

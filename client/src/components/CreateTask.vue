@@ -1,11 +1,14 @@
 <template>
   <div class="d-flex flex-column align-items-end">
-    <form v-if="form" @submit.prevent>
-      <input class="rounded-pill border-0 pl-1 mb-1" v-model="newTask.title" type="text" />
-      <button class="btn btn-secondary" @click="CreateTask">create task</button>
+    <form class @submit.prevent>
+      <input
+        class="rounded-pill border-1 pl-1 mb-1"
+        placeholder="Add a Task"
+        v-model="newTask.title"
+        type="text"
+      />
+      <p class="text-success" @click="CreateTask">create task</p>
     </form>
-    <button v-if="!form" @click="form = !form" class="btn btn-secondary mr-1">+</button>
-    <button v-else @click="form = !form" class="btn btn-warning mr-1">-</button>
   </div>
 </template>
 
