@@ -6,7 +6,7 @@ export const socketStore = {
   actions: {
     initializeSocket({ commit, dispatch }) {
       //establish connection with socket
-      socket = io("//kanbam99.herokuapp.com);
+      socket = io("//kanbam99.herokuapp.com");
       //Handle any on connection events
       socket.on("CONNECTED", data => {
         console.log("Connected to socket, villany may commence");
