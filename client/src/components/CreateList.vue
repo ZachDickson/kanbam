@@ -26,7 +26,6 @@ export default {
     async CreateList() {
       await this.$store.dispatch("createList", this.newList);
       console.log(this.newList);
-      this.newList.title = "";
     }
   }
 };

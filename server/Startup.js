@@ -8,7 +8,7 @@ import auth0provider from "@bcwdev/auth0provider";
 export default class Startup {
   static ConfigureGlobalMiddleware(app) {
     // NOTE Configure and Register Middleware
-    let whitelist = ["http://localhost:8080", "https://kanbam99.herokuapp.com"];
+    let whitelist = ["http://localhost:8080"];
     let corsOptions = {
       origin: function (origin, callback) {
         let originIsWhitelisted = whitelist.indexOf(origin) !== -1;

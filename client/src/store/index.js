@@ -7,6 +7,7 @@ import { socketStore } from "./socketStore"
 Vue.use(Vuex)
 
 //Allows axios to work locally or live
+
 let base = window.location.host.includes('localhost:8080') ? '//localhost:3000/' : '/'
 
 let api = Axios.create({
@@ -27,37 +28,49 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user
     },
+
     setBoards(state, boards) {
       state.boards = boards
     },
+
     setActiveBoard(state, board) {
       state.activeBoard = board
+    },
+
+    deleteBoard(state, boardId) {
+      state.boards = state.boards.filter(b => b._id != boardId)
     },
 
     setList(state, list) {
       state.lists = list
     },
+
     deleteList(state, id) {
-      state.lists = state.lists.filter(c => c._id != id)
+      state.lists = state.lists.filter(l => l._id != id)
     },
+
     addList(state, list) {
       state.lists.push(list)
     },
+
     addTask(state, task) {
       state.tasks[task.listId].push(task)
     },
+
     editTask(state, task) {
       let task1 = state.tasks.find(c => c.id == task.id)
       task1 = task;
     },
+
     deleteTask(state, task) {
       state.tasks[task.listId] = state.tasks[task.listId].filter(c => c.id != task.id)
-      console.log(state.tasks[task.listId].filter(c => c.id != task.id))
     },
+
     setTasks(state, tasks) {
       Vue.set(state.tasks, tasks.listId, tasks.tasks)
     }
   },
+
   actions: {
     //#region -- AUTH STUFF --
     setBearer({ }, bearer) {
@@ -79,12 +92,9 @@ export default new Vuex.Store({
 
     //#region -- BOARDS --
     async getBoards({ commit, dispatch }) {
-      await api.get('boards')
-        .then(res => {
-          commit('setBoards', res.data)
-        })
+      let res = await api.get('boards')
+      commit('setBoards', res.data)
     },
-
 
     async setActiveBoard({ commit }, boardId) {
       let board = await api.get(`boards/${boardId}`);
@@ -93,42 +103,43 @@ export default new Vuex.Store({
 
     async addBoard({ commit, dispatch }, boardData) {
       await api.post('boards', boardData)
-        .then(serverBoard => {
-          dispatch('getBoards')
-        })
+      dispatch('getBoards')
+
     },
 
     async editBoard({ dispatch }, update) {
       await api.put(`boards/${update.id}`, update)
-      dispatch("getBoards")
     },
 
     async deleteBoardById({ commit, dispatch }, boardId) {
       await api.delete(`boards/${boardId}`)
-      dispatch("getBoards")
+      commit('deleteBoard', boardId)
     },
     //#endregion
 
 
     //#region -- LISTS --
 
-    getList({ commit }, boardId) {
-      api.get(`boards/${boardId}/lists`)
-        .then(res => {
-          commit('setList', res.data)
-        })
+    async getList({ commit }, boardId) {
+      let res = await api.get(`boards/${boardId}/lists`)
+      commit('setList', res.data)
+
     },
 
-    createList({ commit }, list) {
-      api.post('lists', list)
+    async createList({ commit, dispatch }, list) {
+      await api.post('lists', list)
+      dispatch('getList', list.boardId)
     },
 
     async deleteList({ commit, dispatch }, list) {
       await api.delete(`lists/${list.id}`)
+      commit('deleteList', list.id)
     },
 
-    async createTask({ commit }, task) {
-      let tasks = await api.post('tasks', task)
+    async createTask({ commit, dispatch }, task) {
+      await api.post('tasks', task)
+      dispatch('getTasksByListId', task.listId)
+
     },
 
     async getTasksByListId({ commit }, id) {
@@ -138,6 +149,7 @@ export default new Vuex.Store({
 
     async deleteTaskById({ commit, dispatch }, task) {
       await api.delete(`tasks/${task.id}`);
+      commit('deleteTask', task)
     },
 
     async createComment({ commit, dispatch }, comment) {
@@ -157,8 +169,5 @@ export default new Vuex.Store({
 
     //#endregion
 
-  },
-  modules: {
-    socketStore
   }
 })

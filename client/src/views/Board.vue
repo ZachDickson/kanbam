@@ -26,7 +26,6 @@ export default {
     },
     lists() {
       return this.$store.state.lists;
-      console.log();
     }
   },
   mounted() {
